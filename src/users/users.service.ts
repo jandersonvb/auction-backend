@@ -1,26 +1,55 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
+import { User } from './entities/user.entity';
+
+import * as bcrypt from 'bcrypt';
 import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  constructor(@InjectRepository(User) private userRepository: Repository<User>) { }
+
+  private async hashPassword(password: string) {
+    return await bcrypt.hash(password, 10);
   }
 
-  findAll() {
-    return `This action returns all users`;
+  async create(createUserDto: CreateUserDto): Promise<User> {
+    const userExisting = await this.userRepository.findOne({ where: { username: createUserDto.username } });
+
+    if (userExisting) {
+      throw new ConflictException("User already exists");
+    }
+
+    const user = this.userRepository.create({
+      ...createUserDto,
+      password: await this.hashPassword(createUserDto.password),
+    });
+
+    return this.userRepository.save(user);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findAll(): Promise<User[]> {
+    return this.userRepository.find();
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async findOne(id: string): Promise<User> {
+    return this.userRepository.findOne({ where: { id } });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { id } });
+
+    user.username = updateUserDto.username;
+    user.password = await this.hashPassword(updateUserDto.password);
+
+    return this.userRepository.save(user);
+  }
+
+  async remove(id: string): Promise<void> {
+    const user = await this.userRepository.findOne({ where: { id } });
+
+    await this.userRepository.remove(user);
   }
 }

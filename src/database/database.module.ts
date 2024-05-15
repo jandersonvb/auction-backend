@@ -17,7 +17,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         migrations: [__dirname + '/../migrations/*{.ts,.js}'],
         migrationsRun: true,
         // Do not use synchronize: true in production
-        // synchronize: true,
+        synchronize: true,
         logging: true,
       }),
       inject: [ConfigService],
