@@ -1,5 +1,6 @@
+import { Auction } from "src/auctions/entities/auction.entity";
 import { User } from "src/users/entities/user.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Book {
@@ -15,6 +16,9 @@ export class Book {
   @Column()
   genre: string;
 
-  @ManyToOne(() => User, user => user.books)
+  @ManyToOne(() => User, user => user.books) // um usuário pode ter vários livros para vender
   seller: User;
+
+  @OneToOne(() => Auction, auction => auction.book) // um livro pode ter apenas um leilão
+  auction: Auction;
 }
