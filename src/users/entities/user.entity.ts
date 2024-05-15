@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Book } from "src/books/entities/book.entity";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class User {
@@ -11,8 +12,14 @@ export class User {
   @Column({ name: 'password' })
   password: string;
 
-  @Column({ name: 'type', default: 'buyer' })
-  type: string;
+  @Column({ default: 'both' })
+  type: string; // 'seller', 'buyer', 'both'
+
+  @OneToMany(() => Book, book => book.seller)
+  books: Book[];
+
+  // @OneToMany(() => Offer, offer => offer.buyer)
+  // offers: Offer[];
 
   @CreateDateColumn({ name: 'created_at' })
   created_at: Date;
