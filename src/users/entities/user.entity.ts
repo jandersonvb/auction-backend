@@ -1,4 +1,5 @@
 import { Book } from "src/books/entities/book.entity";
+import { Offer } from "src/offers/entities/offer.entity";
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
@@ -18,8 +19,8 @@ export class User {
   @OneToMany(() => Book, book => book.seller)
   books: Book[];
 
-  // @OneToMany(() => Offer, offer => offer.buyer)
-  // offers: Offer[];
+  @OneToMany(() => Offer, offer => offer.buyer)
+  offers: Offer[];
 
   @CreateDateColumn({ name: 'created_at' })
   created_at: Date;
