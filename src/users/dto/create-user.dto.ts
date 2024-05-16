@@ -1,4 +1,5 @@
 import { IsString } from 'class-validator';
+import { UserType } from '../enum/user-type';
 
 export class CreateUserDto {
   @IsString()
@@ -9,5 +10,5 @@ export class CreateUserDto {
   password: string;
 
   @IsString()
-  type: 'buyer' | 'seller';
+  type: UserType;
 }

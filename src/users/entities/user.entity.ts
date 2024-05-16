@@ -1,6 +1,7 @@
 import { Book } from "src/books/entities/book.entity";
 import { Offer } from "src/offers/entities/offer.entity";
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { UserType } from "../enum/user-type";
 
 @Entity()
 export class User {
@@ -13,8 +14,8 @@ export class User {
   @Column({ name: 'password' })
   password: string;
 
-  @Column({ default: 'both' })
-  type: string; // 'seller', 'buyer', 'both'
+  @Column({ type: 'enum', enum: UserType, default: UserType.BUYER })
+  type: UserType;
 
   @OneToMany(() => Book, book => book.seller)
   books: Book[];
