@@ -1,9 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { GoogleBooksService } from 'src/google-books/google-books.service';
 import { BooksService } from './books.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
-import { GoogleBooksService } from 'src/google-books/google-books.service';
+import { ApiTags } from '@nestjs/swagger';
+import { User } from 'src/users/entities/user.entity';
 
+@ApiTags('books')
 @Controller('books')
 export class BooksController {
   constructor(
@@ -12,8 +15,13 @@ export class BooksController {
   ) { }
 
   @Post()
-  create(@Body() createBookDto: CreateBookDto) {
-    return this.booksService.create(createBookDto);
+  create(@Body() createBookDto: CreateBookDto, seller: User) {
+    return this.booksService.create(createBookDto, seller);
+  }
+
+  @Get('search/:query')
+  search(@Param('query') query: string) {
+    return this.googleBooksService.searchBooks(query);
   }
 
   @Get()
@@ -21,9 +29,9 @@ export class BooksController {
     return this.booksService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.booksService.findOne(id);
+  @Get('find')
+  findOne(@Query('title') title: string) {
+    return this.booksService.findOne(title);
   }
 
   @Patch(':id')
@@ -36,8 +44,5 @@ export class BooksController {
     return this.booksService.remove(id);
   }
 
-  @Get('search/:query')
-  search(@Param('query') query: string) {
-    return this.googleBooksService.searchBooks(query);
-  }
+
 }
