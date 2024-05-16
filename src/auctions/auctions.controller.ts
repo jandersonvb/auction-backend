@@ -5,7 +5,7 @@ import { UpdateAuctionDto } from './dto/update-auction.dto';
 
 @Controller('auctions')
 export class AuctionsController {
-  constructor(private readonly auctionsService: AuctionsService) {}
+  constructor(private readonly auctionsService: AuctionsService) { }
 
   @Post()
   create(@Body() createAuctionDto: CreateAuctionDto) {
@@ -19,16 +19,16 @@ export class AuctionsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.auctionsService.findOne(+id);
+    return this.auctionsService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateAuctionDto: UpdateAuctionDto) {
-    return this.auctionsService.update(+id, updateAuctionDto);
+    return this.auctionsService.update(id, updateAuctionDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.auctionsService.remove(+id);
+    return this.auctionsService.remove(id);
   }
 }
