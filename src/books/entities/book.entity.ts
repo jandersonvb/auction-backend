@@ -1,6 +1,6 @@
 import { Auction } from "src/auctions/entities/auction.entity";
 import { User } from "src/users/entities/user.entity";
-import { Column, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class Book {
@@ -16,9 +16,15 @@ export class Book {
   @Column()
   genre: string;
 
-  @ManyToOne(() => User, user => user.books) // um usuário pode ter vários livros para vender
+  @ManyToOne(() => User, user => user.books, { onDelete: 'CASCADE' }) // um usuário pode ter vários livros para vender
   seller: User;
 
   @OneToOne(() => Auction, auction => auction.book) // um livro pode ter apenas um leilão
   auction: Auction;
+
+  @CreateDateColumn({ name: 'created_at' })
+  created_at: Date;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updated_at: Date;
 }
