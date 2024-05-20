@@ -9,9 +9,13 @@ import { Auction } from './entities/auction.entity';
 export class AuctionsService {
   constructor(@InjectRepository(Auction) private readonly auctionRepository: Repository<Auction>) { }
 
-
   async create(createAuctionDto: CreateAuctionDto): Promise<Auction> {
     const auction = this.auctionRepository.create(createAuctionDto);
+
+    if (!auction) {
+      throw new NotFoundException("Auction not found");
+    }
+
     return this.auctionRepository.save(auction);
   }
 

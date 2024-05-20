@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -16,28 +16,26 @@ export class UsersService {
   }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const userExisting = await this.userRepository.findOne({ where: { username: createUserDto.username } });
+    const userAlreadyExist = await this.userRepository.findOne({ where: { email: createUserDto.email } });
 
-    if (userExisting) {
-      throw new ConflictException("User already exists");
+    if (userAlreadyExist) {
+      throw new ConflictException('User already exists');
     }
 
     const user = this.userRepository.create({
-      username: createUserDto.username,
+      ...createUserDto,
       password: await this.hashPassword(createUserDto.password),
-      type: createUserDto.type
     });
 
-    const createdUser = await this.userRepository.save(user);
+    return this.userRepository.save(user);
 
-    return createdUser;
   }
 
   async findAll(): Promise<User[]> {
     return this.userRepository.find();
   }
 
-  async findById(id: string): Promise<User> {
+  async findOne(id: string): Promise<User> {
     const user = await this.userRepository.findOne({ where: { id } });
 
     if (!user) {
@@ -70,5 +68,21 @@ export class UsersService {
     const user = await this.userRepository.findOne({ where: { id } });
 
     await this.userRepository.remove(user);
+  }
+
+  async verifyUser(email: string, password: string): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { email } });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      throw new UnauthorizedException('Invalid password');
+    }
+
+    return user;
   }
 }

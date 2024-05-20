@@ -6,6 +6,7 @@ import { BooksModule } from './books/books.module';
 import { OffersModule } from './offers/offers.module';
 import { AuctionsModule } from './auctions/auctions.module';
 import { GoogleBooksService } from './google-books/google-books.service';
+import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -13,7 +14,8 @@ import { GoogleBooksService } from './google-books/google-books.service';
     UsersModule,
     BooksModule,
     OffersModule,
-    AuctionsModule],
+    AuctionsModule,
+    AuthModule],
   controllers: [],
   providers: [GoogleBooksService],
 })
