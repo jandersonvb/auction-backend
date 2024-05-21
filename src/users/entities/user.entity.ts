@@ -31,4 +31,5 @@ export class User {
 
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updated_at: Date;
+  private _id: any;
 }
