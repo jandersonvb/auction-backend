@@ -39,4 +39,4 @@ Este é o backend de um sistema de leilões, construído usando o framework [Nes
   - [TypeORM](https://typeorm.io/)
   - [Docker](https://www.docker.com/)
   - [Docker Compose](https://docs.docker.com/compose/)
-  - [JWT] (https://jwt.io/)
+  - [JWT](https://jwt.io/)
