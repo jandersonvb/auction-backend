@@ -33,10 +33,10 @@ Este é o backend de um sistema de leilões, construído usando o framework [Nes
    npm run start:dev  
 
 ### Tecnologias utilizadas
-  - [NestJS] (https://nestjs.com/) 
-  - [TypeScript] (https://www.typescriptlang.org/)
-  - [PostgreSQL] (https://www.postgresql.org/)
-  - [TypeORM] (https://typeorm.io/)
+  - [NestJS](https://nestjs.com/) 
+  - [TypeScript](https://www.typescriptlang.org/)
+  - [PostgreSQL](https://www.postgresql.org/)
+  - [TypeORM](https://typeorm.io/)
   - [Docker](https://www.docker.com/)
   - [Docker Compose](https://docs.docker.com/compose/)
   - [JWT] (https://jwt.io/)
