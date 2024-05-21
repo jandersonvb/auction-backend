@@ -6,11 +6,7 @@ Este é o backend de um sistema de leilões, construído usando o framework [Nes
 
 - [Instalação](#instalação)
 - [Configuração](#configuração)
-- [Comandos Úteis](#comandos-úteis)
-- [Estrutura do Projeto](#estrutura-do-projeto)
 - [Tecnologias Utilizadas](#tecnologias-utilizadas)
-- [Contribuição](#contribuição)
-- [Licença](#licença)
 
 ## Instalação
 
@@ -35,3 +31,12 @@ Este é o backend de um sistema de leilões, construído usando o framework [Nes
 
 4. ```bash
    npm run start:dev  
+
+### Tecnologias utilizadas
+  - [NestJS] (https://nestjs.com/) 
+  - [TypeScript] (https://www.typescriptlang.org/)
+  - [PostgreSQL] (https://www.postgresql.org/)
+  - [TypeORM] (https://typeorm.io/)
+  - [Docker](https://www.docker.com/)
+  - [Docker Compose](https://docs.docker.com/compose/)
+  - [JWT] (https://jwt.io/)
